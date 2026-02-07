@@ -1,0 +1,256 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TalentTrackr | AI-Powered Job Matching</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <header class="hero">
+      <nav class="nav">
+        <div class="logo">🚀 TalentTrackr</div>
+        <div class="nav-links">
+          <a href="#jobs">Find Jobs</a>
+          <a href="#ai-match">AI Matching</a>
+          <a href="#careers">Career Tips</a>
+          <a href="#employers">Employers</a>
+        </div>
+        <button class="nav-cta" data-modal="profile-modal">Profile Setup</button>
+      </nav>
+
+      <div class="hero-content">
+        <div>
+          <p class="hero-tag">✨ AI-Powered Job Matching</p>
+          <h1>Get jobs matched to YOU, instantly.</h1>
+          <p class="hero-sub">
+            Upload your resume, let our AI analyze your skills, and find the perfect entry-level opportunities that match your background.
+          </p>
+          <form class="search" action="#jobs">
+            <input type="text" id="searchInput" placeholder="Search by role, skill, or company" />
+            <input type="text" id="locationInput" placeholder="City or remote" />
+            <button class="primary" type="submit">Search Jobs</button>
+          </form>
+          <div class="hero-actions">
+            <button class="secondary" data-modal="resume-modal">📄 Upload Resume</button>
+            <button class="ghost" data-modal="match-modal">⚡ Get AI Matches</button>
+          </div>
+        </div>
+        <div class="hero-card">
+          <div class="card-header">
+            <h2>Your AI Profile</h2>
+            <span id="profileStatus">Setup needed</span>
+          </div>
+          <div id="profilePreview">
+            <p style="color: #6b7280; font-size: 0.875rem;">No profile data yet. Upload your resume to get started!</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="ticker">
+        <p>⚡ 500+ entry-level jobs available · AI analyzes your skills in seconds · No experience required for most roles</p>
+      </div>
+    </header>
+
+    <main>
+      <section id="openings" class="section">
+      <div class="modal" id="resume-modal">
+        <div class="modal-content" style="max-width: 500px;">
+          <h2>Upload Your Resume</h2>
+          <p style="color: #6b7280; margin-bottom: 1.5rem;">Our AI will analyze your skills and match you with perfect jobs</p>
+          
+          <div style="border: 2px dashed #e5e7eb; border-radius: 0.75rem; padding: 2rem; text-align: center; margin-bottom: 1.5rem; cursor: pointer;" id="dropZone">
+            <p style="font-size: 2rem; margin-bottom: 0.5rem;">📄</p>
+            <p style="margin: 0; color: #1f2937; font-weight: 600;">Drag and drop or click</p>
+            <p style="color: #6b7280; font-size: 0.875rem; margin-top: 0.5rem;">PDF, DOC, or TXT files</p>
+          </div>
+          
+          <textarea id="resumeText" placeholder="Or paste your resume text here..." style="width: 100%; height: 150px; padding: 1rem; border: 1px solid #e5e7eb; border-radius: 0.5rem; font-family: monospace; font-size: 0.875rem; resize: vertical; margin-bottom: 1rem;"></textarea>
+          
+          <input type="file" id="resumeFile" accept=".pdf,.doc,.docx,.txt" style="display: none;" />
+          
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+            <button class="close-btn secondary" style="padding: 0.75rem 1.5rem; border: 1px solid #e5e7eb; background: white; border-radius: 0.5rem; cursor: pointer; font-weight: 600; color: #1f2937;">Cancel</button>
+            <button id="analyzeResumeBtn" class="primary" style="padding: 0.75rem 1.5rem; border: none; background: #2563eb; color: white; border-radius: 0.5rem; cursor: pointer; font-weight: 600;">Analyze Resume</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal" id="profile-modal">
+        <div class="modal-content" style="max-width: 500px;">
+          <h2>Create Your Profile</h2>
+          
+          <form id="profileForm" style="display: flex; flex-direction: column; gap: 1rem;">
+            <div>
+              <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: #1f2937;">Name</label>
+              <input type="text" id="fullName" placeholder="Your name" style="width: 100%; padding: 0.75rem; border: 1px solid #e5e7eb; border-radius: 0.5rem; font-size: 1rem;">
+            </div>
+            
+            <div>
+              <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: #1f2937;">Email</label>
+              <input type="email" id="userEmail" placeholder="your@email.com" style="width: 100%; padding: 0.75rem; border: 1px solid #e5e7eb; border-radius: 0.5rem; font-size: 1rem;">
+            </div>
+            
+            <div>
+              <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: #1f2937;">Skills (comma-separated)</label>
+              <input type="text" id="userSkills" placeholder="e.g., JavaScript, Python, Excel, Customer Service" style="width: 100%; padding: 0.75rem; border: 1px solid #e5e7eb; border-radius: 0.5rem; font-size: 1rem;">
+            </div>
+            
+            <div>
+              <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: #1f2937;">Preferred Job Type</label>
+              <select id="jobType" style="width: 100%; padding: 0.75rem; border: 1px solid #e5e7eb; border-radius: 0.5rem; font-size: 1rem;">
+                <option>Full-time</option>
+                <option>Part-time</option>
+                <option>Internship</option>
+                <option>Contract</option>
+                <option>Any</option>
+              </select>
+            </div>
+            
+            <div>
+              <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: #1f2937;">Work Location</label>
+              <select id="workLocation" style="width: 100%; padding: 0.75rem; border: 1px solid #e5e7eb; border-radius: 0.5rem; font-size: 1rem;">
+                <option>Remote</option>
+                <option>Hybrid</option>
+                <option>On-site</option>
+                <option>Any</option>
+              </select>
+            </div>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1rem;">
+              <button type="button" class="close-btn secondary" style="padding: 0.75rem 1.5rem; border: 1px solid #e5e7eb; background: white; border-radius: 0.5rem; cursor: pointer; font-weight: 600; color: #1f2937;">Cancel</button>
+              <button type="submit" class="primary" style="padding: 0.75rem 1.5rem; border: none; background: #2563eb; color: white; border-radius: 0.5rem; cursor: pointer; font-weight: 600;">Save Profile</button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <div class="modal" id="match-modal">
+        <div class="modal-content" style="max-width: 600px;">
+          <h2>🤖 AI Job Matching</h2>
+          <p style="color: #6b7280; margin-bottom: 1.5rem;">Our AI analyzes your skills and finds the best matches for you</p>
+          
+          <div id="matchResults" style="max-height: 400px; overflow-y: auto;">
+            <p style="text-align: center; color: #6b7280;">Set up your profile first to get AI-powered recommendations</p>
+          </div>
+          
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1rem;">
+            <button class="close-btn secondary" style="padding: 0.75rem 1.5rem; border: 1px solid #e5e7eb; background: white; border-radius: 0.5rem; cursor: pointer; font-weight: 600; color: #1f2937;">Close</button>
+            <button id="runMatchBtn" class="primary" style="padding: 0.75rem 1.5rem; border: none; background: #2563eb; color: white; border-radius: 0.5rem; cursor: pointer; font-weight: 600;">Run AI Matching</button>
+          </div>
+        </div>
+      </div>
+
+      <section id="jobs" class="section">
+        <div class="section-heading">
+          <h2>🎯 Live Job Openings</h2>
+          <p>Entry-level roles from companies actively hiring. No experience usually required.</p>
+        </div>
+        <div class="filter-bar" style="display: flex; gap: 1rem; margin-bottom: 2rem; flex-wrap: wrap;">
+          <select id="typeFilter" style="padding: 0.5rem 1rem; border: 1px solid #e5e7eb; border-radius: 0.5rem;">
+            <option value="">All Types</option>
+            <option value="Full-time">Full-time</option>
+            <option value="Part-time">Part-time</option>
+            <option value="Internship">Internship</option>
+          </select>
+          <select id="tagFilter" style="padding: 0.5rem 1rem; border: 1px solid #e5e7eb; border-radius: 0.5rem;">
+            <option value="">All Categories</option>
+            <option value="Tech">Tech</option>
+            <option value="Remote">Remote</option>
+            <option value="Entry-level">Entry-level</option>
+            <option value="Operations">Operations</option>
+          </select>
+          <button id="resetFilters" style="padding: 0.5rem 1.5rem; border: 1px solid #e5e7eb; border-radius: 0.5rem; background: white; cursor: pointer; font-weight: 600;">Reset</button>
+        </div>
+        <div class="cards" id="jobsContainer">
+          <p style="grid-column: 1/-1; text-align: center; padding: 2rem;">Loading jobs...</p>
+        </div>
+      </section>
+
+      <section id="ai-match" class="section" style="background: #f0f9ff; border-radius: 1rem;">
+        <div class="section-heading">
+          <h2>✨ How AI Matching Works</h2>
+          <p>Our machine learning algorithm matches your skills to real job opportunities</p>
+        </div>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem;">
+          <div style="background: white; padding: 2rem; border-radius: 0.75rem; border-left: 4px solid #2563eb;">
+            <h3 style="margin-bottom: 1rem;">1️⃣ Upload Resume</h3>
+            <p style="color: #6b7280;">Share your resume or manually enter your skills</p>
+          </div>
+          <div style="background: white; padding: 2rem; border-radius: 0.75rem; border-left: 4px solid #10b981;">
+            <h3 style="margin-bottom: 1rem;">2️⃣ AI Analysis</h3>
+            <p style="color: #6b7280;">Our AI extracts skills, experience, and preferences</p>
+          </div>
+          <div style="background: white; padding: 2rem; border-radius: 0.75rem; border-left: 4px solid #f59e0b;">
+            <h3 style="margin-bottom: 1rem;">3️⃣ Smart Matching</h3>
+            <p style="color: #6b7280;">Get jobs ranked by match percentage</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="availability" class="section insights">
+
+      <section id="careers" class="section tips">
+        <div class="section-heading">
+          <h2>💡 Career Guidance</h2>
+          <p>AI-powered insights to accelerate your job search</p>
+        </div>
+        <div style="display: grid; gap: 2rem;">
+          <div style="background: #f3f4f6; padding: 2rem; border-radius: 0.75rem; border-left: 4px solid #2563eb;">
+            <h3>🎓 Top In-Demand Skills for Entry-Level</h3>
+            <p id="topSkills" style="margin-top: 1rem; color: #6b7280;"></p>
+          </div>
+          <div style="background: #f3f4f6; padding: 2rem; border-radius: 0.75rem; border-left: 4px solid #10b981;">
+            <h3>📈 Interview Preparation Tips</h3>
+            <ul style="margin-top: 1rem; color: #6b7280; padding-left: 1.5rem;">
+              <li style="margin-bottom: 0.5rem;">Practice common entry-level interview questions at least 3 times</li>
+              <li style="margin-bottom: 0.5rem;">Research the company culture and recent news before the interview</li>
+              <li style="margin-bottom: 0.5rem;">Prepare examples of how you've learned quickly or overcome challenges</li>
+              <li style="margin-bottom: 0.5rem;">Ask about mentorship and growth opportunities</li>
+              <li>Follow up with a thank you email within 24 hours</li>
+            </ul>
+          </div>
+          <div style="background: #f3f4f6; padding: 2rem; border-radius: 0.75rem; border-left: 4px solid #f59e0b;">
+            <h3>💼 Resume Tips for Success</h3>
+            <ul style="margin-top: 1rem; color: #6b7280; padding-left: 1.5rem;">
+              <li style="margin-bottom: 0.5rem;">Keep it to one page - simplicity is powerful</li>
+              <li style="margin-bottom: 0.5rem;">Use action verbs: achieved, built, created, designed</li>
+              <li style="margin-bottom: 0.5rem;">Include relevant projects and volunteer work</li>
+              <li style="margin-bottom: 0.5rem;">Customize your resume for each job application</li>
+              <li>Highlight transferable skills like communication and problem-solving</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section class="section steps">
+
+      <section id="employers" class="section employer">
+        <div class="employer-card">
+          <h2>📢 Are You Hiring?</h2>
+          <p>Connect with talented entry-level candidates ready to grow</p>
+          <div class="employer-actions">
+            <a class="primary" href="mailto:steeleeclipse962@gmail.com?subject=Post%20a%20Job%20on%20TalentTrackr">Post a Job</a>
+            <a class="secondary" href="mailto:steeleeclipse962@gmail.com?subject=TalentTrackr%20Enterprise%20Demo">Enterprise Demo</a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <p>🚀 TalentTrackr © 2025 · AI-Powered Job Matching for Everyone</p>
+      <div>
+        <a href="#">Privacy</a>
+        <a href="#">Terms</a>
+        <a href="#">Contact</a>
+      </div>
+    </footer>
+    <script src="script.js"></script>
+  </body>
+</html>
